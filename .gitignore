@@ -1,0 +1,9 @@
+# Project exclude paths
+/.gradle/
+/core/build/
+/merchandise-api/build/
+/order-api/build/
+/search-api/build/
+/user-api/build/
+
+.idea
