@@ -39,18 +39,18 @@ class ExceptionHandler(
                 ServerResponse.status(globalException.status)
                     .bodyValue(
                         ErrorResponse(
-                            name = globalException.name,
+                            name = globalException.getName(),
                             message = globalException.message
                         )
                     ).also {
-                        logger.error("${globalException.name} ${globalException.message}", throwable)
+                        logger.error("${globalException.getName()} ${globalException.message}", throwable)
                     }
             }
             else -> ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .bodyValue(
                     ErrorResponse(
-                        name = throwable.javaClass.simpleName,
-                        message = throwable.suppressedExceptions.toString()
+                        name = GlobalMessage.INTERNAL_SERVER_ERROR.name,
+                        message = GlobalMessage.INTERNAL_SERVER_ERROR.message
                     )
                 ).also {
                     logger.error(throwable.javaClass.simpleName, throwable)

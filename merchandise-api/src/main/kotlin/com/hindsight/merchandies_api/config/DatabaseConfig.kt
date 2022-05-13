@@ -1,4 +1,4 @@
-package com.hindsight.user.config
+package com.hindsight.merchandies_api.config
 
 import io.r2dbc.spi.ConnectionFactory
 import org.springframework.beans.factory.annotation.Value

@@ -1,4 +1,4 @@
-package com.hindsight.order
+package com.hindsight.user_api
 
 import com.hindsight.core.EnableCore
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -6,8 +6,9 @@ import org.springframework.boot.runApplication
 
 @SpringBootApplication
 @EnableCore
-class OrderApplication
+class UserApplication
 
 fun main(args: Array<String>) {
-    runApplication<OrderApplication>(*args)
+    runApplication<UserApplication>(*args)
 }
+

@@ -1,4 +1,4 @@
-package com.hindsight.user
+package com.hindsight.search_api
 
 import com.hindsight.core.EnableCore
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -6,9 +6,8 @@ import org.springframework.boot.runApplication
 
 @SpringBootApplication
 @EnableCore
-class UserApplication
+class SearchApplication
 
 fun main(args: Array<String>) {
-    runApplication<UserApplication>(*args)
+    runApplication<SearchApplication>(*args)
 }
-

@@ -1,4 +1,4 @@
-package com.hindsight.order.config
+package com.hindsight.order_api.config
 
 import io.r2dbc.spi.ConnectionFactory
 import org.springframework.beans.factory.annotation.Value
