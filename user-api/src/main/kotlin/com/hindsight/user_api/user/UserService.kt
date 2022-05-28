@@ -22,16 +22,4 @@ class UserService(private val userRepository: UserRepository, val operator: Tran
             ?.let { throw UserException(UserExceptionMessage.LOGIN_ID_DUPLICATED) }
             ?: Unit
 
-//    suspend fun login(loginId: String, pw: String) =
-//        userRepository.findByLoginIdAndPw(loginId = loginId, pw = encryptPw(pw))
-//            ?: run {
-//                operator.executeAndAwait {
-//                    userRepository.findByLoginId(loginId)
-//                        ?.let { failedUser -> userRepository.save(failedUser.copy(
-//
-//                        ))}
-//                }
-//                throw UserException(UserExceptionMessage.LOGIN_FAIL)
-//            }
-
 }
