@@ -22,4 +22,5 @@ class UserService(private val userRepository: UserRepository, val operator: Tran
             ?.let { throw UserException(UserExceptionMessage.LOGIN_ID_DUPLICATED) }
             ?: Unit
 
+
 }
