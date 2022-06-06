@@ -45,16 +45,11 @@ class UserService(private val userRepository: UserRepository, val operator: Tran
                         )
                     ).let { UserDetailResponse.from(it) }
                 } else {
-                    operator.executeAndAwait {
-                        userRepository.findByLoginId(loginId)
-                            ?.let { failedUser ->
-                                userRepository.save(
-                                    failedUser.copy(
-                                        failedLoginCount = failedUser.failedLoginCount + 1
-                                    )
-                                )
-                            }
-                    }
+                    userRepository.save(
+                        user.copy(
+                            failedLoginCount = user.failedLoginCount + 1
+                        )
+                    )
                     throw UserException(UserExceptionMessage.LOGIN_FAIL)
                 }
             } ?: throw UserException(UserExceptionMessage.LOGIN_FAIL)
