@@ -1,5 +1,5 @@
 rootProject.name = "shopping"
-include("core")
+include("common")
 include("user-api")
 include("search-api")
 include("order-api")

@@ -2,13 +2,15 @@ package com.hindsight.user_api.user
 
 import com.hindsight.core.exception.GlobalException
 import com.hindsight.core.exception.GlobalMessage
+import com.hindsight.core.response.BaseResponse
+import com.hindsight.user_api.exception.UserExceptionMessage
+import com.hindsight.user_api.user.dto.LoginIdCheckRequest
+import com.hindsight.user_api.user.dto.UserAddRequest
 import mu.KotlinLogging
 import org.springframework.stereotype.Component
-import org.springframework.web.reactive.function.server.ServerRequest
-import org.springframework.web.reactive.function.server.ServerResponse
+import org.springframework.web.reactive.function.server.*
 import org.springframework.web.reactive.function.server.ServerResponse.ok
-import org.springframework.web.reactive.function.server.awaitBody
-import org.springframework.web.reactive.function.server.buildAndAwait
+import java.util.*
 
 
 private val logger = KotlinLogging.logger {}
@@ -17,10 +19,9 @@ private val logger = KotlinLogging.logger {}
 class UserHandler(private val userService: UserService) {
 
     suspend fun addUser(request: ServerRequest): ServerResponse {
-        val req: User = request.awaitBody()
+        val req: UserAddRequest = request.awaitBody()
 
-        if (!req.isInfoValid()) {
-            logger.error { req }
+        if (!req.isValid()) {
             throw GlobalException(GlobalMessage.REQUEST_NOT_VALID)
         }
 
@@ -40,6 +41,26 @@ class UserHandler(private val userService: UserService) {
         userService.checkIdIsDuplicate(req.loginId)
 
         return ok().buildAndAwait()
+    }
+
+    suspend fun login(request: ServerRequest): ServerResponse {
+        val (loginId, pw) = request.headers().header("Authorization").first()
+            .let { rawStr ->
+                val (key, info) = rawStr.split(" ")
+                if (key == "Bearer") {
+                    Base64.getDecoder().decode(info).let { String(it) }.split(":")
+                } else {
+                    throw GlobalException(UserExceptionMessage.LOGIN_FAIL)
+                }
+            }
+
+
+        return userService.login(loginId = loginId, pw = pw)
+            .let {
+                ok().bodyValueAndAwait(
+                    BaseResponse(it)
+                )
+            }
     }
 
 }

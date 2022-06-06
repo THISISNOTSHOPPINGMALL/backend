@@ -1,8 +1,5 @@
 package com.hindsight.user_api.user
 
-import com.hindsight.core.validation.isAddress
-import com.hindsight.core.validation.isPhoneNumber
-import com.hindsight.user_api.validation.isUserId
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Table
 import org.springframework.security.crypto.bcrypt.BCrypt
@@ -21,7 +18,8 @@ data class User(
     val lastLoginAt: LocalDateTime? = null,
     val token: String? = null,
     val address: String,
-    val phoneNumber: String
+    val phoneNumber: String,
+    val failedLoginCount: Long = 0
 ) {
     companion object {
         fun of(loginId: String, pw: String, address: String, phoneNumber: String) =
@@ -34,17 +32,6 @@ data class User(
             )
     }
 
-    fun isInfoValid(): Boolean = address.isAddress() && phoneNumber.isPhoneNumber() && loginId.isUserId()
 }
 
-
 fun encryptPw(pw: String): String = BCrypt.gensalt().let { salt -> BCrypt.hashpw(pw, salt) }
-
-// Request
-data class LoginIdCheckRequest(
-    val loginId: String
-)
-
-fun LoginIdCheckRequest.isValid(): Boolean = loginId.isUserId()
-
-// Response
