@@ -30,6 +30,14 @@ class UserHandler(private val userService: UserService) {
         return ok().buildAndAwait()
     }
 
+    suspend fun findByUniqueValue(request: ServerRequest): ServerResponse {
+        val uv: String = request.pathVariable("uv")
+
+        return userService.findByUniqueValue(uniqueValue = uv).let{
+            ok().bodyValueAndAwait(BaseResponse(it))
+        }
+    }
+
     suspend fun checkDuplicatedUserLoginId(request: ServerRequest): ServerResponse {
         val req: LoginIdCheckRequest = request.awaitBody()
 
@@ -61,6 +69,20 @@ class UserHandler(private val userService: UserService) {
                     BaseResponse(it)
                 )
             }
+    }
+
+    suspend fun authByToken(request: ServerRequest): ServerResponse {
+        val token = request.headers().header("x-auth-shop-token").first()
+
+        userService.authByToken(token)
+        return ok().buildAndAwait()
+    }
+
+    suspend fun logout(request: ServerRequest): ServerResponse {
+        val token = request.headers().header("x-auth-shop-token").first()
+
+        userService.logout(token)
+        return ok().buildAndAwait()
     }
 
 }
