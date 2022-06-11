@@ -1,6 +1,5 @@
 package com.hindsight.merchandies_api
 
-import com.hindsight.core.EnableCore
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
