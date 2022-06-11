@@ -12,8 +12,9 @@ class Router(private val userHandler: UserHandler) {
     @Bean
     fun userRouter() = coRouter {
         "".nest{
-            POST("", accept(MediaType.APPLICATION_JSON), userHandler::addUser)
+            POST("/signup", accept(MediaType.APPLICATION_JSON), userHandler::addUser)
             POST("/loginId", accept(MediaType.APPLICATION_JSON), userHandler::checkDuplicatedUserLoginId)
+            POST("/login", userHandler::login)
         }
     }
 

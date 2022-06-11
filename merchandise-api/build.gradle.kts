@@ -8,7 +8,7 @@ plugins {
 val querydslVersion = "4.4.0" // querydsl 추가
 
 dependencies {
-    implementation(project(":core"))
+    implementation(project(":common"))
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-web")
