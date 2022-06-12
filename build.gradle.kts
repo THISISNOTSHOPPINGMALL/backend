@@ -7,10 +7,14 @@ buildscript {
 }
 
 plugins {
-    id("org.springframework.boot") version "2.6.3" apply false
+    val kotlinVersion = "1.5.31"
+
+    id("org.springframework.boot") version "2.5.5" apply false
     id("io.spring.dependency-management") version "1.0.11.RELEASE" apply false
-    kotlin("jvm") version "1.6.21" apply false
-    kotlin("plugin.spring") version "1.6.10" apply false
+    kotlin("jvm") version kotlinVersion apply false
+    kotlin("plugin.spring") version kotlinVersion apply false
+    kotlin("kapt") version kotlinVersion apply false
+    kotlin("plugin.jpa") version kotlinVersion apply false
 }
 
 extra["slf4j.version"] = "1.7.20"
@@ -18,34 +22,25 @@ extra["slf4j.version"] = "1.7.20"
 allprojects {
     group = "com.hindsight"
     version = "1.0-SNAPSHOT"
+    val kotestVersion = "5.2.1"
+    extra["slf4j.version"] = "1.7.20"
+    extra["kotlin-coroutines.version"] = "1.6.0"
 
-    repositories {
-        mavenCentral()
-    }
-}
-
-subprojects {
     apply {
+        plugin("kotlin")
         plugin("org.springframework.boot")
         plugin("io.spring.dependency-management")
         plugin("org.jetbrains.kotlin.jvm")
         plugin("org.jetbrains.kotlin.plugin.spring")
     }
 
-    group = "com.hindsight"
-    version = "1.0-SNAPSHOT"
-    val kotestVersion = "5.2.1"
-    extra["slf4j.version"] = "1.7.20"
-    extra["kotlin-coroutines.version"] = "1.6.0"
-
     repositories {
         mavenCentral()
     }
 
-    val implementation by configurations
-    val testImplementation by configurations
-
     dependencies {
+        val implementation by configurations
+        val testImplementation by configurations
         implementation("org.springframework.boot:spring-boot-starter-webflux")
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
@@ -62,11 +57,10 @@ subprojects {
     }
 
     tasks.withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = "11"
     }
 
     tasks.withType<Test>().configureEach {
         useJUnitPlatform()
     }
 }
-
