@@ -1,11 +1,11 @@
-package com.hindsight.search_api
+package com.hindsight.payment_api
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class SearchApplication
+class PaymentApplication
 
 fun main(args: Array<String>) {
-    runApplication<SearchApplication>(*args)
+    runApplication<PaymentApplication>(*args)
 }
