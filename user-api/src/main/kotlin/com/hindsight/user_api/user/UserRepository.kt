@@ -6,5 +6,7 @@ interface UserRepository : CoroutineSortingRepository<User, Long> {
 
     suspend fun findByLoginId(loginId: String): User?
 
-    suspend fun findByLoginIdAndPw(loginId: String, pw: String): User?
+    suspend fun findByToken(token: String): User?
+
+    suspend fun findByUniqueValue(uniqueValue: String): User?
 }

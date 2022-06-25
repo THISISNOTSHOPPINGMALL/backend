@@ -4,8 +4,7 @@ import com.hindsight.core.exception.GlobalException
 import com.hindsight.core.exception.GlobalMessage
 import com.hindsight.core.response.BaseResponse
 import com.hindsight.user_api.exception.UserExceptionMessage
-import com.hindsight.user_api.user.dto.LoginIdCheckRequest
-import com.hindsight.user_api.user.dto.UserAddRequest
+import com.hindsight.user_api.user.dto.UserDto
 import mu.KotlinLogging
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.*
@@ -19,7 +18,7 @@ private val logger = KotlinLogging.logger {}
 class UserHandler(private val userService: UserService) {
 
     suspend fun addUser(request: ServerRequest): ServerResponse {
-        val req: UserAddRequest = request.awaitBody()
+        val req: UserDto.AddRequest = request.awaitBody()
 
         if (!req.isValid()) {
             throw GlobalException(GlobalMessage.REQUEST_NOT_VALID)
@@ -30,8 +29,16 @@ class UserHandler(private val userService: UserService) {
         return ok().buildAndAwait()
     }
 
+    suspend fun findByUniqueValue(request: ServerRequest): ServerResponse {
+        val uv: String = request.pathVariable("unique_value")
+
+        return userService.findByUniqueValue(uniqueValue = uv).let {
+            ok().bodyValueAndAwait(BaseResponse(it))
+        }
+    }
+
     suspend fun checkDuplicatedUserLoginId(request: ServerRequest): ServerResponse {
-        val req: LoginIdCheckRequest = request.awaitBody()
+        val req: UserDto.LoginIdCheckRequest = request.awaitBody()
 
         if (!req.isValid()) {
             logger.error { req }
@@ -61,6 +68,20 @@ class UserHandler(private val userService: UserService) {
                     BaseResponse(it)
                 )
             }
+    }
+
+    suspend fun authByToken(request: ServerRequest): ServerResponse {
+        val token = request.headers().header("x-auth-shop-token").first()
+
+        userService.authByToken(token)
+        return ok().buildAndAwait()
+    }
+
+    suspend fun logout(request: ServerRequest): ServerResponse {
+        val token = request.headers().header("x-auth-shop-token").first()
+
+        userService.logout(token)
+        return ok().buildAndAwait()
     }
 
 }

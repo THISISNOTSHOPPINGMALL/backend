@@ -11,10 +11,13 @@ class Router(private val userHandler: UserHandler) {
 
     @Bean
     fun userRouter() = coRouter {
-        "".nest{
+        "/user".nest{
             POST("/signup", accept(MediaType.APPLICATION_JSON), userHandler::addUser)
             POST("/loginId", accept(MediaType.APPLICATION_JSON), userHandler::checkDuplicatedUserLoginId)
             POST("/login", userHandler::login)
+            GET("/auth", userHandler::authByToken)
+            PUT("/logout", userHandler::logout)
+            GET("/{unique_value}", userHandler::findByUniqueValue)
         }
     }
 
