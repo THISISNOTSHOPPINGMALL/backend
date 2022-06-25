@@ -17,7 +17,7 @@ class Router(private val userHandler: UserHandler) {
             POST("/login", userHandler::login)
             GET("/auth", userHandler::authByToken)
             PUT("/logout", userHandler::logout)
-            GET("/{uv}", userHandler::findByUniqueValue)
+            GET("/{unique_value}", userHandler::findByUniqueValue)
         }
     }
 

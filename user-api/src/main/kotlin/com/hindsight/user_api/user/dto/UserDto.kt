@@ -8,37 +8,41 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 
 
-data class UserDetailResponse(
-    val loginId: String,
-    val uniqueValue: String,
-    val createdAt: LocalDateTime = LocalDateTime.now(ZoneId.of("Asia/Seoul")),
-    val address: String,
-    val phoneNumber: String,
-    val token: String?
-){
-    companion object{
-        fun from(user: User) = UserDetailResponse(
-            loginId = user.loginId,
-            uniqueValue = user.uniqueValue,
-            createdAt = user.createdAt,
-            address = user.address,
-            phoneNumber = user.phoneNumber,
-            token = user.token
-        )
+class UserDto {
+
+    data class DetailResponse(
+        val loginId: String,
+        val uniqueValue: String,
+        val createdAt: LocalDateTime = LocalDateTime.now(ZoneId.of("Asia/Seoul")),
+        val address: String,
+        val phoneNumber: String,
+        val token: String?
+    ) {
+        companion object {
+            fun from(user: User) = DetailResponse(
+                loginId = user.loginId,
+                uniqueValue = user.uniqueValue,
+                createdAt = user.createdAt,
+                address = user.address,
+                phoneNumber = user.phoneNumber,
+                token = user.token
+            )
+        }
+    }
+
+    data class LoginIdCheckRequest(
+        val loginId: String
+    ) {
+        fun isValid(): Boolean = loginId.isUserId()
+    }
+
+    data class AddRequest(
+        val loginId: String,
+        val pw: String,
+        val address: String,
+        val phoneNumber: String
+    ) {
+        fun isValid(): Boolean = loginId.isUserId() && address.isAddress() && phoneNumber.isPhoneNumber()
     }
 }
 
-data class LoginIdCheckRequest(
-    val loginId: String
-){
-    fun isValid(): Boolean = loginId.isUserId()
-}
-
-data class UserAddRequest(
-    val loginId: String,
-    val pw: String,
-    val address: String,
-    val phoneNumber: String
-){
-    fun isValid(): Boolean = loginId.isUserId() && address.isAddress() && phoneNumber.isPhoneNumber()
-}
