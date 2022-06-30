@@ -1,6 +1,7 @@
 ## 개발내용
 
-## 변경사항 ( 테스트 및 사진 첨부 ) 
+## 주의사항 및 특이점  
+- [x] 없음
 
 ## 관련 링크 ( Jira, docs )
 - jira : [SHOP-{number}](https://devnine.atlassian.net/jira/software/projects/SHOP/boards/8?selectedIssue=SHOP-{number})
