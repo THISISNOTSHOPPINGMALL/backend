@@ -21,7 +21,4 @@ class CategoryEntity private constructor(
     @Column(nullable = false)
     var level: Long = level
 
-    @OneToMany(mappedBy = "category", cascade = [CascadeType.PERSIST], targetEntity = ItemEntity::class)
-    var items: List<ItemEntity> = emptyList()
-
 }
