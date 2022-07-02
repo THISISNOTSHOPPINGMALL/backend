@@ -15,6 +15,7 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+        dialect:
     #        default_batch_fetch_size: 100
     open-in-view: false
 
@@ -23,3 +24,6 @@ logging:
     ROOT: info
     org.hibernate.SQL: debug
 #  org.hibernate.type: trace
+
+endpoint:
+  merchandise: http://localhost:8081
