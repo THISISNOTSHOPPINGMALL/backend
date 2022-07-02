@@ -20,6 +20,7 @@ class ItemInCartEntity private constructor(
     var id: Long? = null
 
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "cart_id")
     val cart: CartEntity = cart
     val itemId: Long = itemId
     var amount: Int = amount
