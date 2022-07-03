@@ -1,6 +1,7 @@
 package com.hindsight.order_api.service
 
 import com.hindsight.core.exception.GlobalException
+import com.hindsight.core.exception.GlobalMessage
 import com.hindsight.order_api.api.MerchandiseApi
 import com.hindsight.order_api.domain.CartEntity
 import com.hindsight.order_api.domain.ItemInCartEntity
@@ -24,7 +25,6 @@ class CartService(
 
     @Transactional
     suspend fun addItemToCart(cartId: Long, req: CartDto.Request.Add): Long {
-
         val item: ItemDto.Response.Simple = merchandiseApi.getItemById(req.itemId)
 
         return withContext(Dispatchers.IO) {
@@ -33,15 +33,19 @@ class CartService(
                     if (it.isEmpty) throw GlobalException(OrderMessage.CART_NOT_FOUND) else it.get()
                 }
 
-            val itemInCart: ItemInCartEntity = itemInCartRepository.save(
-                ItemInCartEntity.of(
-                    cart = cart,
-                    itemId = item.id,
-                    amount = req.amount
-                )
-            )
-
-            itemInCart.id ?: throw GlobalException(OrderMessage.CART_CREATE_INTERNAL_ERROR)
+            itemInCartRepository.findByCartAndItemId(cart = cart, itemId = item.id)
+                .let {
+                    if (it.isEmpty) {
+                        itemInCartRepository.save(
+                            ItemInCartEntity.of(
+                                cart = cart,
+                                itemId = item.id
+                            )
+                        )
+                    } else {
+                        throw GlobalException(GlobalMessage.ALREADY_EXIST_ITEM_IN_CART)
+                    }
+                }.id ?: throw GlobalException(OrderMessage.CART_CREATE_INTERNAL_ERROR)
         }
     }
 }

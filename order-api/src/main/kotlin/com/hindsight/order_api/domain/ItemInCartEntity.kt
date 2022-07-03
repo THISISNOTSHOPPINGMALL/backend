@@ -10,8 +10,7 @@ import javax.persistence.FetchType.LAZY
 @Table(name = "item_in_cart")
 class ItemInCartEntity private constructor(
     cart: CartEntity,
-    itemId: Long,
-    amount: Int
+    itemId: Long
 ) {
 
     @Id
@@ -23,7 +22,7 @@ class ItemInCartEntity private constructor(
     @JoinColumn(name = "cart_id")
     val cart: CartEntity = cart
     val itemId: Long = itemId
-    var amount: Int = amount
+    var amount: Int = 1
 
     val createdAt: LocalDateTime = LocalDateTime.now(ZoneId.of("Asia/Seoul"))
     var updatedAt: LocalDateTime? = null
@@ -32,13 +31,16 @@ class ItemInCartEntity private constructor(
     companion object {
         fun of(
             cart: CartEntity,
-            itemId: Long,
-            amount: Int
+            itemId: Long
         ): ItemInCartEntity = ItemInCartEntity(
             cart = cart,
-            itemId = itemId,
-            amount = amount
+            itemId = itemId
         )
+    }
+
+    fun updateAmount(amount: Int): ItemInCartEntity {
+        this.amount = amount
+        return this
     }
 
 }
