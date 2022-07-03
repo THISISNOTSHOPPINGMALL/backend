@@ -12,8 +12,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    runtimeOnly("com.h2database:h2")
+    implementation("mysql:mysql-connector-java")
 
+    // test
+    implementation("io.mockk:mockk:1.12.0")
+    runtimeOnly("com.h2database:h2")
     // querydsl 추가
     implementation("com.querydsl:querydsl-jpa:$querydslVersion")
     kapt("com.querydsl:querydsl-apt:$querydslVersion:jpa")
