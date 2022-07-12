@@ -1,9 +1,9 @@
-package com.hindsight.merchandies_api.domain
+package com.hindsight.merchandies_api.entity
 
-import com.hindsight.merchandies_api.domain.base.BaseEntity
+import com.hindsight.merchandies_api.entity.base.BaseEntity
 import java.time.LocalDateTime
 import javax.persistence.*
-import javax.persistence.FetchType.*
+import javax.persistence.FetchType.LAZY
 
 @Entity
 @Table(name = "item")
@@ -11,7 +11,6 @@ class ItemEntity private constructor(
     name: String,
     stock: Int,
     category: CategoryEntity,
-    mall: MallEntity
 ) : BaseEntity() {
 
     @Id
@@ -34,21 +33,15 @@ class ItemEntity private constructor(
     @JoinColumn(name = "category_id")
     var category: CategoryEntity = category
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "mall_id")
-    var mall: MallEntity = mall
-
     companion object {
         fun of(
             name: String,
             stock: Int,
             categoryEntity: CategoryEntity,
-            mallEntity: MallEntity
         ): ItemEntity = ItemEntity(
             name = name,
             stock = stock,
-            category = categoryEntity,
-            mall = mallEntity
+            category = categoryEntity
         )
     }
 

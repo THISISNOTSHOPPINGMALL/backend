@@ -1,6 +1,6 @@
-package com.hindsight.merchandies_api.domain
+package com.hindsight.merchandies_api.entity
 
-import com.hindsight.merchandies_api.domain.base.BaseEntity
+import com.hindsight.merchandies_api.entity.base.BaseEntity
 import java.time.LocalDateTime
 import javax.persistence.*
 import javax.persistence.FetchType.LAZY

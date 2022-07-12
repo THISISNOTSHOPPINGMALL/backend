@@ -1,4 +1,4 @@
-package com.hindsight.merchandies_api.domain.base
+package com.hindsight.merchandies_api.entity.base
 
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
