@@ -1,16 +1,15 @@
 spring:
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:test
-    username: sa
-    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/merchandise?useSSL=false&characterEncoding=UTF-8&tlsVersion=TLSv1:2&serverTimezone=UTC
+    username: root
   jackson:
     property-naming-strategy: SNAKE_CASE
     deserialization:
       FAIL_ON_NULL_FOR_PRIMITIVES: true
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
 #        show_sql: true

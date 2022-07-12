@@ -12,7 +12,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    runtimeOnly("com.h2database:h2")
+    implementation("mysql:mysql-connector-java")
 
     // querydsl 추가
     implementation("com.querydsl:querydsl-jpa:$querydslVersion")
